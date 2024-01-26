@@ -9,6 +9,8 @@ import { readContract } from "@wagmi/core";
 import { smartContract } from "@/config";
 import { useAccount } from "wagmi";
 import { useWeb3Modal } from "@web3modal/wagmi/react";
+import { MdOutlineShoppingBag } from "react-icons/md";
+
 
 const MerchandiseShop = () => {
   const { isConnected, address } = useAccount();
@@ -180,7 +182,7 @@ const MerchandiseShop = () => {
                           }}
                           className="uppercase text-xs lg:text-sm font-bold hover:text-black hover:bg-[url('/assets/images/png/filled-button-image.png')] bg-[url('/assets/images/png/button-border.png')] bg_size_full h-[56px] w-full bg-no-repeat duration-300 text-[#FFBB00] flex justify-center items-center gap-2 group mx-auto"
                         >
-                          Coming Soon! <BlackLockIconBlack group="group" />
+                          Shop Now <MdOutlineShoppingBag className="text-lg" group="group" />
                         </button>
                       ) : (
                         <button
@@ -207,7 +209,7 @@ const MerchandiseShop = () => {
                           }}
                           className="uppercase text-xs lg:text-sm font-bold hover:text-black hover:bg-[url('/assets/images/png/filled-button-image.png')] bg-[url('/assets/images/png/button-border.png')] bg_size_full h-[56px] w-full bg-no-repeat duration-300 text-[#FFBB00] flex justify-center items-center gap-2 group mx-auto"
                         >
-                          Coming Soon! <BlackLockIconBlack group="group" />
+                          Show Now <MdOutlineShoppingBag className="text-lg" group="group" />
                         </button>
                       )}
                     </div>
