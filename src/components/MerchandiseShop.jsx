@@ -10,9 +10,13 @@ import { smartContract } from "@/config";
 import { useAccount } from "wagmi";
 import { useWeb3Modal } from "@web3modal/wagmi/react";
 import { MdOutlineShoppingBag } from "react-icons/md";
-
+import { MdOutlineFlipCameraAndroid } from "react-icons/md";
 
 const MerchandiseShop = () => {
+  const [flipImage, setFlipImage] = useState(
+    Array(merchandiseShop.length).fill(true)
+  );
+
   const { isConnected, address } = useAccount();
   const { open } = useWeb3Modal();
   const { merchandiseRef } = useGlobalInfoProvider();
@@ -44,6 +48,12 @@ const MerchandiseShop = () => {
   };
   const Data = [
     {
+      selectValue: "sm",
+    },
+    {
+      selectValue: "md",
+    },
+    {
       selectValue: "lg",
     },
     {
@@ -53,13 +63,23 @@ const MerchandiseShop = () => {
       selectValue: "xxl",
     },
   ];
+
+  const handleFlipImage = (index) => () => {
+    setFlipImage((prevFlipImage) => {
+      const newFlipImage = [...prevFlipImage];
+      newFlipImage[index] = !newFlipImage[index];
+      return newFlipImage;
+    });
+  };
+
   // ==========================================
 
   return (
     <div
       id="merchandise"
       ref={merchandiseRef}
-      className="xl:pt-[150px] lg:pt-[130px] pt-[58px] relative"
+      className="xl:pt-[150px] lg:pt-[130px] pt-[58px] relative
+      "
     >
       <Image
         className="absolute top-[-50px] end-0 w-[30%] h-[1580px]"
@@ -77,147 +97,109 @@ const MerchandiseShop = () => {
         >
           MERCHANDISE SHOP
         </h3>
-        <div className="xl:mt-[35px] sm:mt-8 flex flex-wrap justify-center -mt-0.5">
-          {merchandiseShop &&
-            merchandiseShop.map((data, index) => {
-              return (
+
+        {/* Card for Item */}
+        <div
+          className="w-full h-full mt-12
+        md:flex md:flex-row justify-center items-center justify-around gap-4
+        "
+        >
+          {merchandiseShop.slice(8, 12).map((item, index) => (
+            <div
+              className="w-full h-[30rem] flex flex-col gap-4 bg-[#18150E] rounded-xl
+            hover:shadow-lg hover:backdrop-blur-md outine 
+            shadow-sm shadow-[#ffbb00]
+            transition duration-300 ease-in-out
+            hover:shadow-[#ffbb00]
+            px-4
+            py-6
+            "
+              key={index}
+            >
+              {/* Div For Image */}
+              <div
+                style={{
+                  backgroundColor: "white",
+                  width: "100%",
+                  height: "45%",
+                  borderRadius: "10px",
+                  overflow: "hidden",
+                  marginTop: "10px",
+                  position: "relative",
+                }}
+              >
+                {/* Icon for card flip */}
                 <div
-                  data-aos="fade-down"
-                  data-aos-easing="linear"
-                  data-aos-delay={data.delay}
-                  key={index}
-                  className="lg:w-1/4 md:w-1/2 px-[7px] xl:px-2 mt-6 sm:mt-[15px]"
+                  className="flex justify-end items-start absolute top-0 end-0 m-2
+              "
                 >
-                  <div className="hover_card_parent border border-solid border-[#FFBB001A] rounded-lg bg-[#18150E] p-3 xl:p-[15px] shop-card-shadow transition-all duration-300 h-full flex flex-col justify-between">
-                    <div>
-                      <div className="overflow-hidden rounded-md">
-                        {" "}
-                        <Image
-                          className="w-full h-full bg-white"
-                          width="242"
-                          height="237"
-                          src={data.itemImg}
-                          alt="add card items"
-                        />
-                      </div>
-                      <div className="flex justify-between mt-[15px] mb-[5px]">
-                        <p className="font-normal sm:text-[11.62px] xl:text-xs text-xs leading-[21px] opacity-70 text-white mb-0">
-                          {data.newworld}
-                        </p>
-                        <p className="font-medium sm:text-[11.62px] xl:text-xs text-xs leading-[21px] opacity-70 text-white mb-0">
-                          {data.bid}
-                        </p>
-                      </div>
-                      <div className="flex justify-between lg:h-[62px]">
-                        <p className="font-semibold text-[18px] xl:text-base lg:max-w-[150px] text-white mb-0 leading-[31px] duration-300 hover_card_text">
-                          {data.nftArt}
-                        </p>
-                        <p className="font-medium sm:text-sm xl:text-base text-base leading-[26px] text-white mb-0 text-end">
-                          {data.prize}
-                        </p>
-                      </div>
-                    </div>
-                    {index === 0 ? null : (
-                      <div className="border border-[#D19A03] mt-2 py-2 px-3 cursor-pointer shop_dropdown relative">
-                        <p
-                          className="text-[#D19A03]"
-                          onClick={() => toggleDropdown(index)}
-                        >{`${
-                          selectedSizes[index]
-                            ? `${selectedSizes[index]}`
-                            : "select size"
-                        }`}</p>
-                        {dropdownStates[index] ? (
-                          <div className="absolute top-[100%] w-full start-0 border border-[#d19a03]">
-                            {Data.map((value, i) => {
-                              return (
-                                <p
-                                  key={i}
-                                  className="mb-0 cursor-pointer bg-black text-[#D19A03] px-2 duration-300 hover:bg-[#D19A03] hover:text-black"
-                                  onClick={() =>
-                                    selectSize(index, value.selectValue)
-                                  }
-                                >
-                                  {value.selectValue}
-                                </p>
-                              );
-                            })}
-                          </div>
-                        ) : (
-                          ""
-                        )}
-                        <span
-                          onClick={() => toggleDropdown(index)}
-                          className={`absolute right-[4%] duration-300 top-1/2 -translate-y-1/2 ${
-                            rotateArrow[index] ? "rotate-180" : ""
-                          }`}
-                        >
-                          <ShopDropDownIcon />
-                        </span>
-                      </div>
-                    )}
-                    <div className="flex justify-center mt-5 lg:mt-4 xl:mt-5 items-center w-full">
-                      {index === 1 || index === 3 ? (
-                        <button
-                          onClick={() => {
-                            if (isConnected) {
-                              readContract({
-                                chainId: 5,
-                                address: smartContract.address,
-                                abi: smartContract.abi,
-                                functionName: "walletOfOwner",
-                                args: [address],
-                              }).then((res) => {
-                                if (res.length < 1) {
-                                  toast.error(
-                                    "You have to own a Blocky Bite NFT!"
-                                  );
-                                }
-                              });
-                            } else {
-                              toast.error("Connect your wallet");
-
-                              open();
-                            }
-                          }}
-                          className="uppercase text-xs lg:text-sm font-bold hover:text-black hover:bg-[url('/assets/images/png/filled-button-image.png')] bg-[url('/assets/images/png/button-border.png')] bg_size_full h-[56px] w-full bg-no-repeat duration-300 text-[#FFBB00] flex justify-center items-center gap-2 group mx-auto"
-                        >
-                          Shop Now <MdOutlineShoppingBag className="text-lg" group="group" />
-                        </button>
-                      ) : (
-                        <button
-                          onClick={() => {
-                            if (isConnected) {
-                              readContract({
-                                chainId: 5,
-                                address: smartContract.address,
-                                abi: smartContract.abi,
-                                functionName: "walletOfOwner",
-                                args: [address],
-                              }).then((res) => {
-                                if (res.length < 1) {
-                                  toast.error(
-                                    "You have to own a Blocky Bite NFT!"
-                                  );
-                                }
-                              });
-                            } else {
-                              toast.error("Connect your wallet");
-
-                              open();
-                            }
-                          }}
-                          className="uppercase text-xs lg:text-sm font-bold hover:text-black hover:bg-[url('/assets/images/png/filled-button-image.png')] bg-[url('/assets/images/png/button-border.png')] bg_size_full h-[56px] w-full bg-no-repeat duration-300 text-[#FFBB00] flex justify-center items-center gap-2 group mx-auto"
-                        >
-                          Show Now <MdOutlineShoppingBag className="text-lg" group="group" />
-                        </button>
-                      )}
-                    </div>
-                  </div>
+                  <MdOutlineFlipCameraAndroid
+                    className="text-[#FFBB00] text-[20px] cursor-pointer"
+                    onClick={handleFlipImage(index)}
+                  />
                 </div>
-              );
-            })}
+
+                <Image
+                  src={flipImage[index] ? item.itemImg1 : item.itemImg2}
+                  width="800"
+                  height="200"
+                  alt="merchandise-1"
+                  className="object-fit object-center"
+                />
+              </div>
+
+              {/* Div For Text */}
+              <div className="flex justify-between items-center text-white text-[14px]">
+                <span className="text-gray-300">Item</span>
+                <span className="text-gray-300">Price</span>
+              </div>
+
+              {/* Div For Name and price value */}
+              <div className="flex justify-between items-center text-white text-[14px]">
+                <span
+                  className="text-white
+                text-[20px] font-bold
+              hover:text-[#FFBB00]"
+                >
+                  {item.nftArt}
+                </span>
+                <span
+                  className="text-white
+                text-[16px] font-bold"
+                >
+                  {item.prize}
+                </span>
+              </div>
+
+              {/* Button For Shop Now */}
+              <div
+                className="uppercase text-xs lg:text-sm font-bold hover:text-black hover:bg-[url('/assets/images/png/filled-button-image.png')] bg-[url('/assets/images/png/button-border.png')] bg_size_full h-[56px] w-full bg-no-repeat duration-300 text-[#FFBB00] flex justify-center items-center gap-2 group mx-auto
+                cursor-pointer mt-6
+            "
+              >
+                <Link
+                  href={{
+                    pathname: "/MerchandiseShopItem",
+                    query: {
+                      itemName: item?.nftArt,
+                      itemPrice: item?.prize,
+                      itemImg: item?.itemImg1,
+                      itemImg2: item?.itemImg2,
+                      itemDescription: item?.longDescription,
+                    },
+                  }}
+                  className="text-white
+              text-[20px] font-bold flex justify-center items-center gap-2
+              "
+                >
+                  Shop Now
+                  <MdOutlineShoppingBag className="inline-block mr-2" />
+                </Link>
+              </div>
+            </div>
+          ))}
         </div>
+
         <div data-aos="fade-up" data-aos-easing="linear" data-aos-delay="300">
           <Link
             href="/"

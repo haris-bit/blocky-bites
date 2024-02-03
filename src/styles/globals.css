@@ -286,3 +286,34 @@ body {
 .flip_card_back {
   transform: rotateY(180deg);
 }
+
+
+/* Merchandise Shop */
+@layer utilities {
+  .backdrop-blur-md:hover {
+    backdrop-filter: blur(40px); /* You can adjust the blur radius as needed */
+  }
+}
+
+.image-container {
+  position: relative;
+}
+
+.image {
+  transition: opacity 0.3s ease;
+}
+
+.image-container .image:nth-child(2) {
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 0; 
+}
+
+.image-container.flipped .image:nth-child(1) {
+  opacity: 0;  
+}
+
+.image-container.flipped .image:nth-child(2) {
+  opacity: 1;
+}

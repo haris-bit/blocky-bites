@@ -62,8 +62,7 @@ export default function Home() {
         </div>
         <PreSale />
         <About />
-        <Roadmap />
-        <Block />
+        <Roadmap />[]        <Block />
         <MerchandiseShop />
         <JoinDiscord />
         <GetStarted />
