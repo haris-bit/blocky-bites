@@ -202,10 +202,10 @@ const MerchandiseShop = () => {
 
         <div data-aos="fade-up" data-aos-easing="linear" data-aos-delay="300">
           <Link
-            href="/"
+            href="/MerchandiseShopItem"
             className="uppercase text-xs lg:text-sm font-bold text-black bg-[url('/assets/images/png/filled-button-image.png')] hover:bg-[url('/assets/images/png/button-border.png')] h-[56px] w-[250px] bg-no-repeat duration-300 hover:text-[#FFBB00] flex justify-center items-center  mt-8 xl:mt-10 mx-auto bg_size_full"
           >
-            Full Shop Coming Soon!
+            Explore the Entire Shop
           </Link>
         </div>
       </div>
