@@ -9,35 +9,37 @@ import { merchandiseShop } from "@/components/common/Helper";
 import { MdOutlineFlipCameraAndroid } from "react-icons/md";
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { PayPalButton } from "react-paypal-button-v2";
+// import { PayPalButton } from "react-paypal-button-v2";
+import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
+
 
 const MerchandiseShopItem = () => {
   const router = useRouter();
   const [scriptLoaded, setScriptLoaded] = useState(false);
 
-  const addPaypalScript = () => {
-    if (window.paypal) {
+  // const addPaypalScript = () => {
+  //   if (window.paypal) {
 
-      setScriptLoaded(true);
-      return;
+  //     setScriptLoaded(true);
+  //     return;
 
-    }
+  //   }
     
-    const script = document.createElement("script");
-    script.src = "https://www.paypal.com/sdk/js?client-id=Acxb_9S9ZZEuMvkt7QfV7KqQJcKfypd-O6Gqa_Ak--Pfs0IpFbg9gn7cKvPmlFGlsOPnqnw8vbVki5ck";
+  //   const script = document.createElement("script");
+  //   script.src = "https://www.paypal.com/sdk/js?client-id=Acxb_9S9ZZEuMvkt7QfV7KqQJcKfypd-O6Gqa_Ak--Pfs0IpFbg9gn7cKvPmlFGlsOPnqnw8vbVki5ck";
 
-    script.type = "text/javascript";
-    script.async = true;
+  //   script.type = "text/javascript";
+  //   script.async = true;
 
-    script.onload = () => setScriptLoaded(true);
+  //   script.onload = () => setScriptLoaded(true);
 
-    document.body.appendChild(script);
+  //   document.body.appendChild(script);
 
-  };
+  // };
 
-  useEffect(() => {
-    addPaypalScript();
-  }, []);
+  // useEffect(() => {
+  //   addPaypalScript();
+  // }, []);
 
 
   const { itemName, itemPrice, itemImg, itemImg2, itemDescription } =
@@ -124,14 +126,20 @@ const MerchandiseShopItem = () => {
               className="text-[20px]
             "
             />
+          <PayPalScriptProvider options={{ clientId: "Acxb_9S9ZZEuMvkt7QfV7KqQJcKfypd-O6Gqa_Ak--Pfs0IpFbg9gn7cKvPmlFGlsOPnqnw8vbVki5ck" }}>
+            <PayPalButtons amount={itemPrice} style={{ layout: "horizontal" }} />
+        </PayPalScriptProvider>
           </button>
-          {scriptLoaded ? <PayPalButton 
+
+
+
+          {/* {scriptLoaded ? <PayPalButton 
           amount={itemPrice}
           onSuccess={(details, data) => {
             console.log(details, data);
           }}
           
-          /> : <span>Loading...</span>}
+          /> : <span>Loading...</span>} */}
         </div>
       </section>
 
