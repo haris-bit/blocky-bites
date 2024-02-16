@@ -12,10 +12,10 @@
   ],
   "rootMainFiles": [],
   "pages": {
-    "/": [
+    "/ExploreShop": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
-      "static/chunks/pages/index.js"
+      "static/chunks/pages/ExploreShop.js"
     ],
     "/MerchandiseShopItem": [
       "static/chunks/webpack.js",

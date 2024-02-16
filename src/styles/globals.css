@@ -317,3 +317,15 @@ body {
 .image-container.flipped .image:nth-child(2) {
   opacity: 1;
 }
+
+/* CSS for flipped class */
+.flipped {
+  transform: rotateY(-180deg); 
+  transition: transform 1s;
+  animation-delay: 0.5s;
+}
+
+.backtooriginal{
+  transform: rotateY(0deg);
+  transition: transform 1s;
+}
