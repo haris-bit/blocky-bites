@@ -11,7 +11,8 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 // import { PayPalButton } from "react-paypal-button-v2";
 import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
-
+import Zoom from "react-medium-image-zoom";
+import "react-medium-image-zoom/dist/styles.css";
 
 const MerchandiseShopItem = () => {
   const router = useRouter();
@@ -24,7 +25,7 @@ const MerchandiseShopItem = () => {
   //     return;
 
   //   }
-    
+
   //   const script = document.createElement("script");
   //   script.src = "https://www.paypal.com/sdk/js?client-id=Acxb_9S9ZZEuMvkt7QfV7KqQJcKfypd-O6Gqa_Ak--Pfs0IpFbg9gn7cKvPmlFGlsOPnqnw8vbVki5ck";
 
@@ -40,7 +41,6 @@ const MerchandiseShopItem = () => {
   // useEffect(() => {
   //   addPaypalScript();
   // }, []);
-
 
   const { itemName, itemPrice, itemImg, itemImg2, itemDescription } =
     router.query;
@@ -61,6 +61,26 @@ const MerchandiseShopItem = () => {
     });
   };
 
+  const [flippedItems, setFlippedItems] = useState(
+    Array(merchandiseShop.length).fill(false)
+  );
+
+  const handleMouseEnter = (index) => {
+    setFlippedItems((prevFlippedItems) => {
+      const newFlippedItems = [...prevFlippedItems];
+      newFlippedItems[index] = true;
+      return newFlippedItems;
+    });
+  };
+
+  const handleMouseLeave = (index) => {
+    setFlippedItems((prevFlippedItems) => {
+      const newFlippedItems = [...prevFlippedItems];
+      newFlippedItems[index] = false;
+      return newFlippedItems;
+    });
+  };
+
   return (
     <div>
       <Header />
@@ -69,15 +89,18 @@ const MerchandiseShopItem = () => {
       <section className="w-full h-full pt-20 pb-4 md:py-12 px-12 md:px-20 ">
         {/* Div for image and description */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-2 justify-start md:justify-center items-center">
-          <span className="">
-            <Image
-              src={itemImg}
-              width="600"
-              height="700"
-              alt="merchandise-1"
-              className="object-fit object-center rounded-lg
-              "
-            />
+          <span
+            className="imageMagnifier"
+            style={{ width: "100%", height: "100%", marginTop: "10rem" }}
+          >
+            <Zoom>
+              <Image
+                alt="thatwanakatree"
+                src={itemImg}
+                width="600"
+                height="100"
+              />
+            </Zoom>
           </span>
           <span className="mt-4 md:mt-16">
             <h1 className="text-[#FFBB00] text-[24px] font-bold mb-2">
@@ -126,12 +149,18 @@ const MerchandiseShopItem = () => {
               className="text-[20px]
             "
             />
-          <PayPalScriptProvider options={{ clientId: "Acxb_9S9ZZEuMvkt7QfV7KqQJcKfypd-O6Gqa_Ak--Pfs0IpFbg9gn7cKvPmlFGlsOPnqnw8vbVki5ck" }}>
-            <PayPalButtons amount={itemPrice} style={{ layout: "horizontal" }} />
-        </PayPalScriptProvider>
+            <PayPalScriptProvider
+              options={{
+                clientId:
+                  "Acxb_9S9ZZEuMvkt7QfV7KqQJcKfypd-O6Gqa_Ak--Pfs0IpFbg9gn7cKvPmlFGlsOPnqnw8vbVki5ck",
+              }}
+            >
+              <PayPalButtons
+                amount={itemPrice}
+                style={{ layout: "horizontal" }}
+              />
+            </PayPalScriptProvider>
           </button>
-
-
 
           {/* {scriptLoaded ? <PayPalButton 
           amount={itemPrice}
@@ -181,24 +210,28 @@ const MerchandiseShopItem = () => {
                 {/* Icon for card flip */}
                 <div
                   className="flex justify-end items-start absolute top-0 end-0 m-2
-              "
+                    z-10"
                 >
                   <MdOutlineFlipCameraAndroid
                     className="text-[#FFBB00] text-[20px] cursor-pointer"
-                    onClick={handleFlipImage(index)}
+                    onMouseEnter={() => handleMouseEnter(index)}
+                    onMouseLeave={() => handleMouseLeave(index)}
                   />
                 </div>
 
-                <Image
-                  src={flipImage[index] ? item.itemImg1 : item.itemImg2}
-                  width="800"
-                  height="300"
-                  alt="merchandise-1"
-                  className="
-                  object-cover
-                  md:object-contain md:object-center
-                  "
-                />
+                <div
+                  className={`${
+                    flippedItems[index] ? "flipped" : "backtooriginal"
+                  }`}
+                >
+                  <Image
+                    src={flippedItems[index] ? item.itemImg2 : item.itemImg1}
+                    width="800"
+                    height="400"
+                    alt="merchandise-1"
+                    className={`object-cover md:object-contain md:object-center`}
+                  />
+                </div>
               </div>
 
               {/* Div For Text */}
