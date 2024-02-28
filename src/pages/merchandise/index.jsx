@@ -107,7 +107,7 @@ export default function Mint() {
             <h1 className="text-[#FFBB00] text-[20px] font-bold mb-2">
             Blocky Bite Figurine
             </h1>
-            <p>50.00</p>
+            <p>$49.99</p>
           </span>
 
           <span>
@@ -137,7 +137,7 @@ export default function Mint() {
               className="text-[20px]
             "
             />
-            {/* <PayPalScriptProvider
+             <PayPalScriptProvider
               options={{
                 clientId:
                   "Acxb_9S9ZZEuMvkt7QfV7KqQJcKfypd-O6Gqa_Ak--Pfs0IpFbg9gn7cKvPmlFGlsOPnqnw8vbVki5ck",
@@ -147,7 +147,7 @@ export default function Mint() {
                 amount={itemPrice}
                 style={{ layout: "horizontal" }}
               />
-            </PayPalScriptProvider> */}
+            </PayPalScriptProvider>
           </button>
 
           {/* {scriptLoaded ? <PayPalButton 
