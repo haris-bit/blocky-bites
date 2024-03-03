@@ -152,7 +152,7 @@ const MerchandiseShopItem = () => {
             <PayPalScriptProvider
               options={{
                 clientId:
-                  "Acxb_9S9ZZEuMvkt7QfV7KqQJcKfypd-O6Gqa_Ak--Pfs0IpFbg9gn7cKvPmlFGlsOPnqnw8vbVki5ck",
+                  "ARaVRMP3MOMPT53lrjayddba7uXtzpsEqVG309F_UvnsxN-01HO3_Z4TUOm_3kuED3yxB7Fgtxnx-GaM",
               }}
             >
               <PayPalButtons

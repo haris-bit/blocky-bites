@@ -84,8 +84,8 @@ export default function Mint() {
               <Image
                 alt="thatwanakatree"
                 src="/assets/images/png/figure.png"
-                width="600"
-                height="100"
+                width="300"
+                height="800"
                 className="h-[400px] w-[400px] md:h-[400px] md:w-[400px] "
               />
             </Zoom>
@@ -107,7 +107,7 @@ export default function Mint() {
             <h1 className="text-[#FFBB00] text-[20px] font-bold mb-2">
             Blocky Bite Figurine
             </h1>
-            <p>$49.99</p>
+            <p>50.00</p>
           </span>
 
           <span>
@@ -137,7 +137,7 @@ export default function Mint() {
               className="text-[20px]
             "
             />
-             <PayPalScriptProvider
+            <PayPalScriptProvider
               options={{
                 clientId:
                   "Acxb_9S9ZZEuMvkt7QfV7KqQJcKfypd-O6Gqa_Ak--Pfs0IpFbg9gn7cKvPmlFGlsOPnqnw8vbVki5ck",
