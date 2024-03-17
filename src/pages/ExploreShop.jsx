@@ -5,27 +5,157 @@ import Image from "next/image";
 import { MdOutlineFlipCameraAndroid } from "react-icons/md";
 import { merchandiseShop } from "@/components/common/Helper";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
+import { useQuery } from "@tanstack/react-query";
+import { PrintifyProducts } from "@/http";
+import { useRouter } from "next/navigation";
+import ProductCard from "@/components/ProductCard";
+import FourLoadingCardSkeleton from "@/components/LoadingCardSkeleton";
 
-const ExploreShop = () => {
+// get all printify shop products
+const GetPrintifyProducts = async (totalProducts) => {
+  const response = await PrintifyProducts({ limit: totalProducts });
+  if (response.status === 200) {
+    const { data } = response;
+    const Products = {
+      current_page: data?.data?.current_page,
+      data: data?.data?.data,
+      from: data?.data?.from,
+      last_page: data?.data?.last_page,
+      links: data?.data?.links,
+      per_page: data?.data?.per_page,
+      total: data?.data?.total,
+      prev_page_url: data?.data?.prev_page_url,
+      last_page_url: data?.data?.last_page_url,
+      next_page_url: data?.data?.next_page_url,
+    };
+    return Products;
+  }
+};
+
+const ExploreShop = ({}) => {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const totalProducts = searchParams.get("total");
+  const [queryEnabled, setQueryEnabled] = useState(false);
+
+  // queries
+  const {
+    isLoading,
+    error: productsError,
+    data: productsData,
+    refetch,
+  } = useQuery({
+    queryKey: ["allProducts"],
+    queryFn: async () => {
+      return await GetPrintifyProducts(totalProducts);
+    },
+    staleTime: 1000 * 60 * 2,
+    refetchOnWindowFocus: false,
+    enabled: queryEnabled, // Initially disable fetching
+  });
+
   const [flippedItems, setFlippedItems] = useState(
-    Array(merchandiseShop.length).fill(false)
+    Array(productsData?.data.length).fill(false)
   );
+  const [activeImages, setactiveImages] = useState([]);
+  const [images, setimages] = useState([]);
+
+  // const handleMouseEnter = (index) => {
+  //   setFlippedItems((prevFlippedItems) => {
+  //     const newFlippedItems = [...prevFlippedItems];
+  //     newFlippedItems[index] = true;
+  //     return newFlippedItems;
+  //   });
+  // };
+
+  // const handleMouseLeave = (index) => {
+  //   setFlippedItems((prevFlippedItems) => {
+  //     const newFlippedItems = [...prevFlippedItems];
+  //     newFlippedItems[index] = false;
+  //     return newFlippedItems;
+  //   });
+  // };
 
   const handleMouseEnter = (index) => {
     setFlippedItems((prevFlippedItems) => {
-      const newFlippedItems = [...prevFlippedItems];
+      const newFlippedItems = prevFlippedItems.slice();
       newFlippedItems[index] = true;
       return newFlippedItems;
+    });
+    const activeImagesUrls = images?.map((items) => {
+      const FlippedImage = items.find((val, index) => index === 3 && val);
+      return FlippedImage;
+    });
+
+    setactiveImages((prevActiveImages) => {
+      const newFlippedImages = prevActiveImages.slice();
+      newFlippedImages[index] = activeImagesUrls[index];
+      return newFlippedImages;
     });
   };
 
   const handleMouseLeave = (index) => {
     setFlippedItems((prevFlippedItems) => {
-      const newFlippedItems = [...prevFlippedItems];
+      const newFlippedItems = prevFlippedItems.slice();
       newFlippedItems[index] = false;
       return newFlippedItems;
     });
+    const activeImagesUrls = images?.map((items) => {
+      const FlippedImage = items.find((val, index) => index === 2 && val);
+      return FlippedImage;
+    });
+
+    setactiveImages((prevActiveImages) => {
+      const newFlippedImages = prevActiveImages.slice();
+      newFlippedImages[index] = activeImagesUrls[index];
+      return newFlippedImages;
+    });
   };
+
+  React.useEffect(() => {
+    if (productsData?.data) {
+      setFlippedItems(Array(productsData?.data.length).fill(false));
+      const itemImageUrls = productsData.data.map((item) => {
+        const imagesUrlArray = item?.images?.map((val) => val?.src);
+        return imagesUrlArray || [];
+      });
+      setimages(itemImageUrls);
+
+      if (itemImageUrls?.length >= 1) {
+        const activeImagesUrls = itemImageUrls?.map((items) => {
+          const findActiveImage = items.find(
+            (val, index) => index === 2 && val
+          );
+          return findActiveImage;
+        });
+        setactiveImages(activeImagesUrls);
+      }
+    }
+  }, [productsData?.data]);
+
+  // fetch data when params become available after initial render
+  React.useEffect(() => {
+    if (totalProducts) {
+      setQueryEnabled(true);
+    }
+  }, [totalProducts]);
+
+  // loading..
+  if (isLoading) {
+    return (
+      <div className="w-full flex flex-col space-y-3 animate-pulse px-8 py-8 ">
+        <div className="h-4 bg-gray-300 rounded-md w-full"></div>
+        <div className="h-4 bg-gray-300 rounded-md w-11/12"></div>
+        <div className="h-4 bg-gray-300 rounded-md w-9/12"></div>
+        <div className="h-4 bg-gray-300 rounded-md w-3/5"></div>
+      </div>
+    );
+  }
+
+  if (productsError) {
+    return <div>{productsError?.message}</div>;
+  }
 
   return (
     <div>
@@ -38,84 +168,31 @@ const ExploreShop = () => {
               Explore Shop
             </span>
           </h1>
-          <div className="w-full h-full grid grid-cols-1 md:grid-cols-4 gap-4">
-            {merchandiseShop.map((item, index) => (
-              <div
-                key={index}
-                className={`w-full h-[30rem] gap-4 flex flex-col bg-[#18150E] rounded-xl
-      hover:shadow-lg hover:backdrop-blur-md outine           
-      shadow-sm shadow-[#ffbb00]
-      transition duration-300 ease-in-out
-      hover:shadow-[#ffbb00]
-      px-4`}
-              >
-                {/* Div For Image */}
-                <div
-                  style={{
-                    backgroundColor: "white",
-                    width: "100%",
-                    height: "45%",
-                    borderRadius: "10px",
-                    overflow: "hidden",
-                    marginTop: "10px",
-                    position: "relative",
-                  }}
-                >
-                  {/* Icon for card flip */}
-                  <div
-                    className="flex justify-end items-start absolute top-0 end-0 m-2
-                    z-10"
-                  >
-                    <MdOutlineFlipCameraAndroid
-                      className="text-[#FFBB00] text-[20px] cursor-pointer"
-                      onMouseEnter={() => handleMouseEnter(index)}
-                      onMouseLeave={() => handleMouseLeave(index)}
+          {/* Card for Item */}
+          {isLoading ? (
+            <FourLoadingCardSkeleton />
+          ) : (
+            <div
+              className="w-full h-full mt-12
+      md:flex md:flex-row items-center justify-center gap-3 flex-wrap space-y-4 md:space-y-0
+      "
+            >
+              {productsData?.data?.length >= 1
+                ? productsData?.data?.map((item, index) => (
+                    <ProductCard
+                      key={index}
+                      item={item}
+                      index={index}
+                      router={router}
+                      activeImages={activeImages}
+                      flippedItems={flippedItems}
+                      handleMouseEnter={handleMouseEnter}
+                      handleMouseLeave={handleMouseLeave}
                     />
-                  </div>
-
-                  <div
-                    className={`${
-                      flippedItems[index] ? "flipped" : "backtooriginal"
-                    }`}
-                  >
-                    <Image
-                      src={flippedItems[index] ? item.itemImg2 : item.itemImg1}
-                      width="800"
-                      height="400"
-                      alt="merchandise-1"
-                      className={`object-cover md:object-contain md:object-center`}
-                    />
-                  </div>
-                </div>
-
-                {/* Div For Text */}
-                <div className="text-white text-[14px]">
-                  <span className="text-gray-300">Item</span>: {item.nftArt}
-                </div>
-                <div className="text-white text-[14px]">
-                  <span className="text-gray-300">Price</span>: {item.prize}
-                </div>
-
-                {/* Button For Shop Now */}
-                <div className="uppercase text-xs lg:text-sm font-bold hover:text-black hover:bg-[url('/assets/images/png/filled-button-image.png')] bg-[url('/assets/images/png/button-border.png')] bg_size_full h-[56px] w-full bg-no-repeat duration-300 text-[#FFBB00] flex justify-center items-center gap-2 group mx-auto cursor-pointer mt-6">
-                  <Link
-                    href={{
-                      pathname: "/MerchandiseShopItem",
-                      query: {
-                        itemName: item?.nftArt,
-                        itemPrice: item?.prize,
-                        itemImg: item?.itemImg1,
-                        itemDescription: item?.longDescription,
-                      },
-                    }}
-                    className="text-white text-[12px] md:text-[20px] font-bold flex justify-center items-center gap-2"
-                  >
-                    Show Details
-                  </Link>
-                </div>
-              </div>
-            ))}
-          </div>
+                  ))
+                : "No Product Exist!"}
+            </div>
+          )}
         </section>
         <Footer />
       </div>

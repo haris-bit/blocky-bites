@@ -61,7 +61,7 @@ export default async function GET(req, res) {
 
       res.status(200).json({ account });
     }
-  } catch {
+  } catch (err) {
     res.status(400).json({ msg: err });
   }
 }

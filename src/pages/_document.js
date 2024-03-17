@@ -4,7 +4,7 @@ export default function CustomDocument() {
   return (
     <Html className="scroll-smooth" lang="en">
       <Head>
-        <title>Metaverse with Blocky Bites</title>
+        {/* <title>Metaverse with Blocky Bites</title> */}
         <meta name="title" content="Metaverse with Blocky Bites" />
         <meta
           name="description"

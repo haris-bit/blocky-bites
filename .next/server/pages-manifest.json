@@ -3,5 +3,7 @@
   "/_error": "pages/_error.js",
   "/_document": "pages/_document.js",
   "/": "pages/index.js",
-  "/merchandise": "pages/merchandise.js"
+  "/api/account": "pages/api/account.js",
+  "/MerchandiseShopItem/[productId]": "pages/MerchandiseShopItem/[productId].js",
+  "/api/products": "pages/api/products.js"
 }

@@ -19,7 +19,7 @@ import { useEffect, useState } from "react";
 import Preloader from "@/components/common/Preloader";
 import Image from "next/image";
 
-export default function Home() {
+export default function Home(props) {
   // const [videoEnd, setVideoEnd] = useState(false);
   // ========================== AOS ================================
   useEffect(() => {
@@ -29,10 +29,12 @@ export default function Home() {
     });
   }, []);
   return (
+    // <>
+    //   <MerchandiseShop />
+    // </>
     <div className="overflow-x-hidden">
       {/* {videoEnd ? ( */}
       <>
-        {" "}
         <div className="xl:min-h-screen flex flex-col relative">
           <Image
             className="absolute top-0 lg:top-[-20%] start-0 lg:-start-36 w-3/5 sm:w-2/5 lg:w-[35%] opacity-[50%]"
@@ -41,8 +43,6 @@ export default function Home() {
             src="/assets/images/svg/hero-wave.svg"
             alt="wave-img"
           />
-          {/* <span className="absolute sm:w-[100px ] md:w-[150px] lg:w-[190px] xl:w-[215px] sm:h-[100px] md:h-[150px] lg:h-[190px] xl:h-[215px] rounded-full bottom-[-10%] left-0 blur-[387.5px] bg-[#FFBB00] hidden sm:block"></span>
-          <span className="absolute sm:w-[100px ] md:w-[150px] lg:w-[190px] xl:w-[215px] sm:h-[100px] md:h-[150px] lg:h-[190px] xl:h-[215px] rounded-full bottom-[-10%] right-0 blur-[387.5px] bg-[#FFBB00] hidden sm:block"></span> */}
           <Image
             className="absolute bottom-[-500px] left-[-150px] w-[1100px] h-[1100px] z-[-1]"
             src="/assets/images/svg/hero_left_shadow.svg"
@@ -62,7 +62,8 @@ export default function Home() {
         </div>
         <PreSale />
         <About />
-        <Roadmap />[]        <Block />
+        <Roadmap />
+        <Block />
         <MerchandiseShop />
         <JoinDiscord />
         <GetStarted />

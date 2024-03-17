@@ -27,13 +27,11 @@ body {
 .gradient-border {
   background-clip: text;
   -webkit-background-clip: text;
-  border-image: linear-gradient(
-    180deg,
-    rgba(255, 187, 0, 0) 0.16%,
-    rgba(255, 187, 0, 0.42) 44%,
-    rgba(0, 0, 0, 0) 100%,
-    rgba(255, 187, 0, 0) 100%
-  );
+  border-image: linear-gradient(180deg,
+      rgba(255, 187, 0, 0) 0.16%,
+      rgba(255, 187, 0, 0.42) 44%,
+      rgba(0, 0, 0, 0) 100%,
+      rgba(255, 187, 0, 0) 100%);
   border-image-slice: 1;
 }
 
@@ -44,21 +42,15 @@ body {
 
 /* ==================== RODMAP ================================ */
 .rodmap_border_left {
-  background: linear-gradient(
-      272.2deg,
+  background: linear-gradient(272.2deg,
       rgba(255, 187, 0, 0.4) 1.99%,
-      rgba(255, 187, 0, 0) 91.55%
-    )
-    border-box;
+      rgba(255, 187, 0, 0) 91.55%) border-box;
 }
 
 .rodmap_border_right {
-  background: linear-gradient(
-      90deg,
+  background: linear-gradient(90deg,
       rgba(255, 187, 0, 0.4) 1.99%,
-      rgba(255, 187, 0, 0) 91.55%
-    )
-    border-box;
+      rgba(255, 187, 0, 0) 91.55%) border-box;
 }
 
 .roadmap_para_ellipsis {
@@ -91,7 +83,7 @@ body {
   padding-top: 66px;
 }
 
-.slick-slide > div {
+.slick-slide>div {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -247,12 +239,9 @@ body {
   }
 
   .rodmap_border_left {
-    background: linear-gradient(
-        90deg,
+    background: linear-gradient(90deg,
         rgba(255, 187, 0, 0.4) 1.99%,
-        rgba(255, 187, 0, 0) 91.55%
-      )
-      border-box;
+        rgba(255, 187, 0, 0) 91.55%) border-box;
   }
 }
 
@@ -273,7 +262,7 @@ body {
   transform-style: preserve-3d;
 }
 
-.flip_card_trigger:hover ~ .flip_card_inner {
+.flip_card_trigger:hover~.flip_card_inner {
   transform: rotateY(180deg);
 }
 
@@ -291,7 +280,8 @@ body {
 /* Merchandise Shop */
 @layer utilities {
   .backdrop-blur-md:hover {
-    backdrop-filter: blur(40px); /* You can adjust the blur radius as needed */
+    backdrop-filter: blur(40px);
+    /* You can adjust the blur radius as needed */
   }
 }
 
@@ -307,11 +297,11 @@ body {
   position: absolute;
   top: 0;
   left: 0;
-  opacity: 0; 
+  opacity: 0;
 }
 
 .image-container.flipped .image:nth-child(1) {
-  opacity: 0;  
+  opacity: 0;
 }
 
 .image-container.flipped .image:nth-child(2) {
@@ -320,14 +310,16 @@ body {
 
 /* CSS for flipped class */
 .flipped {
-  transform: rotateY(-180deg); 
+  transform: rotateY(-180deg);
   transition: transform 1s;
   animation-delay: 0.5s;
 }
 
-.backtooriginal{
+.backtooriginal {
   transform: rotateY(0deg);
   transition: transform 1s;
 }
 
-
+.description>p>span {
+  color: white !important;
+}
